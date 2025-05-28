@@ -1,0 +1,56 @@
+/* フォント */
+@theme inline {
+  --font-space-mono: var(--font-space-mono);
+}
+
+/* カラー */
+@theme {
+  --color-white: hsl(0, 100%, 100%);
+  --color-black: #000000;
+
+  --color-gray-*: initial;
+  --color-gray-50: hsl(189, 47%, 97%);
+  --color-grey-200: hsl(185, 41%, 84%);
+  --color-grey-300: hsl(184, 19%, 68%);
+  --color-grey-400: hsl(184, 14%, 56%);
+  --color-grey-500: hsl(186, 14%, 43%);
+  --color-grey-550: hsl(180, 18%, 40%);
+  --color-grey-600: hsl(180, 25%, 32%);
+
+  --color-green-*: initial;
+  --color-green-200: hsl(173, 61%, 77%);
+  --color-green-400: hsl(172, 67%, 45%);
+  --color-green-750: hsl(183, 79%, 24%);
+  --color-green-800: hsl(183, 85%, 21%);
+  --color-green-900: hsl(183, 100%, 15%);
+
+  --color-orange-*: initial;
+  --color-orange-400: hsl(13, 70%, 60%);
+}
+
+/* spacing */
+@theme {
+  --spacing-*: initial;
+  --spacing-0: 0;
+  --spacing-100: 0.5rem;
+  --spacing-200: 1rem;
+  --spacing-300: 1.5rem;
+  --spacing-400: 2rem;
+  --spacing-500: 2.5rem;
+  --spacing-600: 3rem;
+  --spacing-1000: 5rem;
+  --spacing-1200: 6rem;
+  --spacing-1500: 7.5rem;
+  --spacing-1600: 8rem;
+}
+
+@theme {
+  --breakpoint-*: initial;
+  /* @mediaクエリ内ではvar()は許可されないため値を複製 */
+  /* メディアクエリでは、値に応じて、中のスタイルを適用する。
+  つまり、メディアクエリが先に判断していないと、スタイルを適用できないため、実行時に解決されるCSS変数は使うことができない。 */
+  /* 参考URL：https://github.com/tailwindlabs/tailwindcss/discussions/15113 */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1440px;
+}
