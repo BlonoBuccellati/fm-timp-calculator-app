@@ -1,0 +1,15 @@
+{
+  // 保存時に、自動で整形
+  "editor.formatOnSave": true,
+  // 保存時にVS Codeが「自動修正（fix）」を行うための設定
+  "editor.codeActionsOnSave": {
+    // すべての Linter / ツール（例：ESLint, Stylelint など）の fix を試みる
+    "source.fixAll": "explicit",
+    // ESLint固有のルール違反を自動修正する
+    "source.fixAll.eslint": "explicit"
+  },
+  // cvaのtailwind補完
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
+}
