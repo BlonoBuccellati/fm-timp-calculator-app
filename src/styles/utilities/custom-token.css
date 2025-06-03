@@ -8,8 +8,8 @@
   --color-white: hsl(0, 100%, 100%);
   --color-black: #000000;
 
-  --color-gray-*: initial;
-  --color-gray-50: hsl(189, 47%, 97%);
+  --color-grey-*: initial;
+  --color-grey-50: hsl(189, 47%, 97%);
   --color-grey-200: hsl(185, 41%, 84%);
   --color-grey-300: hsl(184, 19%, 68%);
   --color-grey-400: hsl(184, 14%, 56%);
