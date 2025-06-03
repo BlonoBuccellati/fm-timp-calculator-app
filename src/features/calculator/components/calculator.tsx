@@ -1,93 +1,201 @@
+"use client";
 import Image from "next/image";
 import { PropsWithChildren } from "react";
 
 import { iconDollar, iconPerson } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+import { useCalculator } from "../hooks/useCalculator";
 
 import ResultCard from "./result-card";
 
 interface CalculatorFormFieldInputProps {
-  src: string;
+  imageSrc: string;
+  state: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const CalculatorFormFieldInput = ({
-  src,
+  imageSrc,
+  state,
+  onChange,
   ...props
 }: CalculatorFormFieldInputProps & React.ComponentProps<"input">) => {
   return (
     <div className="relative">
       <Image
         alt=""
-        src={src}
+        src={imageSrc}
         className="absolute top-1/2 left-200 -translate-y-1/2"
       />
-      <Input placeholder="0" className="px-200 py-100" {...props} />
+      <Input
+        type="number"
+        placeholder="0"
+        className="px-200 py-100"
+        {...props}
+        value={state}
+        onChange={onChange}
+      />
     </div>
   );
 };
 
 interface CalculatorFormFieldProps {
-  label: string;
+  title: string;
+  className?: string;
 }
 const CalculatorFormField = ({
-  label,
+  title,
+  className,
   children,
 }: PropsWithChildren<CalculatorFormFieldProps>) => {
   return (
-    <div className="space-y-100">
-      <label className="typo-5 text-grey-500 block" htmlFor={label}>
-        {label}
-      </label>
+    <div className={cn("space-y-100", className)}>
+      <p className="typo-5 text-grey-500 block">{title}</p>
       {children}
     </div>
   );
 };
 
-const BillField = () => {
+interface BillFieldProps {
+  bill: string;
+  error: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const BillField = ({ bill, error, onChange }: BillFieldProps) => {
   return (
-    <CalculatorFormField label="Bill">
-      <CalculatorFormFieldInput src={iconPerson} id="Bill" />
-    </CalculatorFormField>
+    <label>
+      <CalculatorFormField title="Bill" className="relative">
+        <CalculatorFormFieldInput
+          imageSrc={iconPerson}
+          id="Bill"
+          state={bill}
+          onChange={onChange}
+        />
+        {error && (
+          <p className="absolute top-0 right-0 text-orange-400">{error}</p>
+        )}
+      </CalculatorFormField>
+    </label>
   );
 };
-interface TipButton {
-  num: number;
+
+interface SelectTipFieldProps {
+  customTipDollar: string;
+  error: string;
+  handleTipButtonClick: (e: number) => void;
+  selectedTip: number | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const TipButton = ({ num }: TipButton) => {
-  return <Button>{num}%</Button>;
-};
-const SelectTipField = () => {
+const SelectTipField = ({
+  customTipDollar,
+  handleTipButtonClick,
+  error,
+  selectedTip,
+  onChange,
+}: SelectTipFieldProps) => {
+  const tipNumbers = [5, 10, 15, 25, 50];
   return (
-    <CalculatorFormField label="Select Tip %">
+    <CalculatorFormField title="Select Tip %" className="relative">
       <div className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200">
-        <TipButton num={5} />
-        <TipButton num={10} />
-        <TipButton num={15} />
-        <TipButton num={25} />
-        <TipButton num={50} />
-        <Input placeholder="Custom" className="placeholder:text-center" />
+        {tipNumbers.map((num) => {
+          const isActive = selectedTip === num;
+          return (
+            <Button
+              type="button"
+              key={num}
+              onClick={() => handleTipButtonClick(num)}
+              className={cn(isActive && "bg-green-200 text-green-900")}
+            >
+              {num}%
+            </Button>
+          );
+        })}
+        <label>
+          <Input
+            placeholder="Custom"
+            className="placeholder:text-center"
+            type="number"
+            value={customTipDollar}
+            onChange={onChange}
+          />
+          {error && (
+            <p className="absolute top-0 right-0 text-orange-400">{error}</p>
+          )}
+        </label>
       </div>
     </CalculatorFormField>
   );
 };
 
-const NumberOfPeopleField = () => {
+interface NumberOfPeopleFieldProps {
+  people: string;
+  error: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const NumberOfPeopleField = ({
+  people,
+  error,
+  onChange,
+}: NumberOfPeopleFieldProps) => {
   return (
-    <CalculatorFormField label="Number of People">
-      <CalculatorFormFieldInput src={iconDollar} id="Number of People" />
-    </CalculatorFormField>
+    <label>
+      <CalculatorFormField title="Number of People" className="relative">
+        <CalculatorFormFieldInput
+          imageSrc={iconDollar}
+          id="Number of People"
+          state={people}
+          onChange={onChange}
+        />
+        {error && (
+          <p className="absolute top-0 right-0 text-orange-400">{error}</p>
+        )}
+      </CalculatorFormField>
+    </label>
   );
 };
 
 const Calculator = () => {
+  // 状態管理
+  const {
+    bill,
+    handleBillInputChange,
+    billError,
+    handleTipCustomInputChange,
+    customTipDollar,
+    people,
+    handlePeopleInputChange,
+    peopleError,
+    customTipError,
+    handleTipButtonClick,
+    selectedTip,
+    tipAmount,
+    totalPerPerson,
+  } = useCalculator();
+
   return (
     <form className="tablet:py-600 tablet:px-1000 tablet:rounded-[25px] desktop:max-w-[920px] desktop:flex desktop:space-y-0 desktop:gap-600 desktop:p-400 mx-auto max-w-[608px] space-y-400 rounded-t-[25px] bg-white px-300 py-400">
       <div className="desktop:mx-0 desktop:my-auto mx-auto w-[95%] space-y-400">
-        <BillField />
-        <SelectTipField />
-        <NumberOfPeopleField />
+        <BillField
+          bill={bill}
+          onChange={handleBillInputChange}
+          error={billError}
+        />
+        <SelectTipField
+          customTipDollar={customTipDollar}
+          onChange={handleTipCustomInputChange}
+          error={customTipError}
+          selectedTip={selectedTip}
+          handleTipButtonClick={handleTipButtonClick}
+        />
+        <NumberOfPeopleField
+          people={people}
+          onChange={handlePeopleInputChange}
+          error={peopleError}
+        />
       </div>
-      <ResultCard />
+      <ResultCard tipAmount={tipAmount} totalPerPerson={totalPerPerson} />
     </form>
   );
 };

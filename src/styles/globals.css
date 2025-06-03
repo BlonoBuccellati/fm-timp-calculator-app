@@ -4,6 +4,14 @@
 @import "./utilities/custom-token.css";
 @import "./utilities/typography-token.css";
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  @apply m-0 appearance-none; /* Tailwind のユーティリティを使ってリセット */
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox 用 */
+}
+
 body {
   @apply bg-grey-200;
   font-family: var(--font-space-mono), Arial, Helvetica, sans-serif;

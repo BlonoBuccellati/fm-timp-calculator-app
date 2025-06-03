@@ -21,12 +21,16 @@ const CalculatedContainer = ({
   );
 };
 
-const ResultCard = () => {
+interface ResultCardProps {
+  tipAmount: string;
+  totalPerPerson: string;
+}
+const ResultCard = ({ tipAmount, totalPerPerson }: ResultCardProps) => {
   return (
     <Card className="desktop:space-y-1600 tablet:px-400 desktop:min-w-[413px] space-y-400 rounded-[15px] bg-green-900 p-300">
       <div className="space-y-300">
-        <CalculatedContainer label="Tip Amount" calculatedValue="0.00" />
-        <CalculatedContainer label="Total" calculatedValue="0.00" />
+        <CalculatedContainer label="Tip Amount" calculatedValue={tipAmount} />
+        <CalculatedContainer label="Total" calculatedValue={totalPerPerson} />
       </div>
       <Button variant="reset" className="uppercase" type="button">
         Reset
