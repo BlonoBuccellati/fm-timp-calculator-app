@@ -5,14 +5,14 @@ import { NonZeroNumberSchema } from "../lib/schemas";
 const calculatedValue = (
   bill: string,
   people: string,
-  selectedTip: number | null,
-  customTip: string,
+  selectedTip: string,
+  isCustom: boolean,
 ) => {
-  if (!bill || !people || (!selectedTip && !customTip)) {
+  if (!bill || !people || !selectedTip) {
     const zero = 0;
     return { tipAmount: zero.toFixed(2), totalPerPerson: zero.toFixed(2) };
   }
-  const tipAmount = calculateTipAmount(customTip, selectedTip, bill);
+  const tipAmount = calculateTipAmount(isCustom, selectedTip, bill);
   const totalPerPerson = tipAmount / Number(people);
   return {
     tipAmount: tipAmount.toFixed(2),
@@ -20,13 +20,13 @@ const calculatedValue = (
   };
 };
 const calculateTipAmount = (
-  customTip: string,
-  selectedTip: number | null,
+  isCustom: boolean,
+  selectedTip: string,
   bill: string,
 ) => {
-  if (customTip) {
-    console.log(Number(customTip));
-    return Number(customTip) + Number(bill);
+  if (isCustom) {
+    console.log(Number(selectedTip));
+    return Number(selectedTip) + Number(bill);
   } else {
     const tipPercent = Number(selectedTip);
     return Number(bill) * (1 + tipPercent / 100);
@@ -35,12 +35,13 @@ const calculateTipAmount = (
 
 export function useCalculator() {
   const [bill, setBill] = useState("");
-  const [customTipDollar, setCustomTipDollar] = useState("");
   const [people, setPeople] = useState("");
   const [billError, setBillError] = useState("");
   const [peopleError, setPeopleError] = useState("");
-  const [customTipError, setCustomTipError] = useState("");
-  const [selectedTip, setSelectedTip] = useState<number | null>(null);
+  const [selectedTip, setSelectedTip] = useState({
+    value: "",
+    isCustom: false,
+  });
   const [tipAmount, setTipAmount] = useState("0.00");
   const [totalPerPerson, setTotalPerPerson] = useState("0.00");
 
@@ -58,37 +59,14 @@ export function useCalculator() {
     const { tipAmount, totalPerPerson } = calculatedValue(
       e.target.value,
       people,
-      selectedTip,
-      customTipDollar,
+      selectedTip.value,
+      selectedTip.isCustom,
     );
     console.log(tipAmount);
     setTipAmount(tipAmount);
     setTotalPerPerson(totalPerPerson);
   };
-  const handleTipCustomInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setCustomTipDollar(e.target.value);
-    setSelectedTip(null);
 
-    const validationField = NonZeroNumberSchema.safeParse({
-      selectTip: Number(e.target.value),
-    });
-    if (validationField.success) {
-      setCustomTipError("");
-    } else {
-      const message = validationField.error.flatten().fieldErrors.selectTip;
-      setCustomTipError(message?.toString() ?? "");
-    }
-    const { tipAmount, totalPerPerson } = calculatedValue(
-      bill,
-      people,
-      selectedTip,
-      e.target.value,
-    );
-    setTipAmount(tipAmount);
-    setTotalPerPerson(totalPerPerson);
-  };
   const handlePeopleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPeople(e.target.value);
 
@@ -104,40 +82,27 @@ export function useCalculator() {
     const { tipAmount, totalPerPerson } = calculatedValue(
       bill,
       e.target.value,
-      selectedTip,
-      customTipDollar,
+      selectedTip.value,
+      selectedTip.isCustom,
     );
     setTipAmount(tipAmount);
     setTotalPerPerson(totalPerPerson);
-  };
-
-  const handleTipButtonClick = (percentage: number) => {
-    setCustomTipDollar("");
-    setCustomTipError("");
-    const { tipAmount, totalPerPerson } = calculatedValue(
-      bill,
-      people,
-      percentage,
-      customTipDollar,
-    );
-    setTipAmount(tipAmount);
-    setTotalPerPerson(totalPerPerson);
-    setSelectedTip(percentage);
   };
 
   return {
-    bill,
-    handleBillInputChange,
-    customTipDollar,
-    handleTipCustomInputChange,
-    people,
-    handlePeopleInputChange,
-    peopleError,
-    billError,
-    customTipError,
-    handleTipButtonClick,
-    selectedTip,
-    tipAmount,
-    totalPerPerson,
+    values: { bill, people, selectedTip },
+    setters: {
+      setSelectedTip,
+      handleBillInputChange,
+      handlePeopleInputChange,
+    },
+    errors: {
+      peopleError,
+      billError,
+    },
+    result: {
+      tipAmount,
+      totalPerPerson,
+    },
   };
 }
