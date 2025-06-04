@@ -24,15 +24,21 @@ const CalculatedContainer = ({
 };
 
 const ResultCard = () => {
-  const { result } = useCalculatorContext();
+  const { result, setters } = useCalculatorContext();
   const { tipAmount, totalPerPerson } = result;
+  const { handleResetButtonClick } = setters;
   return (
     <Card className="desktop:space-y-1600 tablet:px-400 desktop:min-w-[413px] space-y-400 rounded-[15px] bg-green-900 p-300">
       <div className="space-y-300">
         <CalculatedContainer label="Tip Amount" calculatedValue={tipAmount} />
         <CalculatedContainer label="Total" calculatedValue={totalPerPerson} />
       </div>
-      <Button variant="reset" className="uppercase" type="button">
+      <Button
+        variant="reset"
+        className="uppercase"
+        type="button"
+        onClick={handleResetButtonClick}
+      >
         Reset
       </Button>
     </Card>

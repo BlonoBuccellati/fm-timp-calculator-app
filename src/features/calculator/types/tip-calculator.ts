@@ -10,6 +10,7 @@ export interface CalculatorSettersProps {
   handleTipButtonClick: (value: number) => void;
   handleBillInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlePeopleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleResetButtonClick: () => void;
 }
 
 export interface CalculatorErrorProps {

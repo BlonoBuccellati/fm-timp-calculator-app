@@ -53,6 +53,13 @@ export function useCalculator() {
     setErrors((prev) => ({ ...prev, tipError: errors.tipError }));
   };
 
+  const handleResetButtonClick = () => {
+    setBill("");
+    setButtonTip("");
+    setCustomTip("");
+    setPeople("");
+  };
+
   // 計算する。
   useEffect(() => {
     const { tipAmount, totalPerPerson } = calculatedValue(
@@ -76,6 +83,7 @@ export function useCalculator() {
     handleTipButtonClick,
     handleBillInputChange,
     handlePeopleInputChange,
+    handleResetButtonClick,
   };
 
   const result: ResultProps = {
