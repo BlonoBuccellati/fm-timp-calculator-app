@@ -12,22 +12,22 @@ import { useCalculatorContext } from "../context/tip-calculator-context";
 
 import CalculatorFormFieldLabel from "./ui/calculator-form-filed-label";
 
-interface TextInputFieldProps {
+interface NumberInputWithIconFieldProps {
   title: string;
   id: string;
-  state: string;
+  value: string;
   error: string;
   iconSrc: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const TextInputField = ({
+const NumberInputWithIconField = ({
   title,
   id,
-  state,
+  value,
   error,
   iconSrc,
   onChange,
-}: TextInputFieldProps) => {
+}: NumberInputWithIconFieldProps) => {
   return (
     <div className="relative space-y-100">
       <CalculatorFormFieldLabel htmlFor={id}>{title}</CalculatorFormFieldLabel>
@@ -42,59 +42,84 @@ const TextInputField = ({
           placeholder="0"
           className="px-200 py-100"
           id={id}
-          value={state}
+          value={value}
           onChange={onChange}
+          aria-describedby={error ? `${id}-error` : undefined}
+          aria-invalid={Boolean(error)}
         />
       </div>
       {error && (
-        <TypographyError className="absolute top-0 right-0" asChild>
-          <label htmlFor={id}>{error}</label>
+        <TypographyError id={`${id}-error`} className="absolute top-0 right-0">
+          {error}
         </TypographyError>
       )}
     </div>
   );
 };
 
-const SelectTipField = () => {
+interface ButtonGroupProps {
+  buttonTip: string;
+  handleTipButtonClick: (value: number) => void;
+}
+const ButtonGroup = ({ buttonTip, handleTipButtonClick }: ButtonGroupProps) => {
   const tipNumbers = [5, 10, 15, 25, 50];
 
+  return (
+    <>
+      {tipNumbers.map((num) => {
+        const isActive = Number(buttonTip) === num;
+        return (
+          <Button
+            type="button"
+            key={num}
+            onClick={() => handleTipButtonClick(num)}
+            className={cn(isActive && "bg-green-200 text-green-900")}
+            aria-pressed={isActive}
+          >
+            {num}%
+          </Button>
+        );
+      })}
+    </>
+  );
+};
+
+const SelectTipField = () => {
   const { values, setters, errors } = useCalculatorContext();
   const { buttonTip, customTip } = values;
   const { handleTipButtonClick, handleCustomTipChange } = setters;
   const { tipError } = errors;
+  const id = "tip";
   return (
-    <div className="relative space-y-100">
-      <CalculatorFormFieldLabel>Select Tip %</CalculatorFormFieldLabel>
-      <div className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200">
-        {tipNumbers.map((num) => {
-          const isActive = Number(buttonTip) === num;
-          return (
-            <Button
-              type="button"
-              key={num}
-              onClick={() => handleTipButtonClick(num)}
-              className={cn(isActive && "bg-green-200 text-green-900")}
-            >
-              {num}%
-            </Button>
-          );
-        })}
-        <label>
-          <Input
-            placeholder="Custom"
-            className="py-[6px] placeholder:text-center"
-            type="number"
-            value={customTip}
-            onChange={handleCustomTipChange}
-          />
-          {tipError && (
-            <TypographyError className="absolute top-0 right-0">
-              {tipError}
-            </TypographyError>
-          )}
-        </label>
+    <fieldset className="relative space-y-100">
+      <CalculatorFormFieldLabel asChild>
+        <legend>Select Tip %</legend>
+      </CalculatorFormFieldLabel>
+      <div
+        className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200"
+        aria-describedby={tipError ? `${id}-error` : undefined}
+      >
+        <ButtonGroup
+          buttonTip={buttonTip}
+          handleTipButtonClick={handleTipButtonClick}
+        />
+        <Input
+          placeholder="Custom"
+          className="py-[6px] placeholder:text-center"
+          type="number"
+          value={customTip}
+          onChange={handleCustomTipChange}
+        />
+        {tipError && (
+          <TypographyError
+            id={`${id}-error`}
+            className="absolute top-0 right-0"
+          >
+            {tipError}
+          </TypographyError>
+        )}
       </div>
-    </div>
+    </fieldset>
   );
 };
 
@@ -102,20 +127,20 @@ const CalculatorForm = () => {
   const { values, setters, errors } = useCalculatorContext();
   return (
     <div className="desktop:mx-0 desktop:my-auto mx-auto w-[95%] space-y-400">
-      <TextInputField
+      <NumberInputWithIconField
         title="Bill"
         id="bill"
         iconSrc={iconDollar}
-        state={values.bill}
+        value={values.bill}
         onChange={setters.handleBillInputChange}
         error={errors.billError}
       />
       <SelectTipField />
-      <TextInputField
+      <NumberInputWithIconField
         title="Number of People"
         id="number-of-people"
         iconSrc={iconPerson}
-        state={values.people}
+        value={values.people}
         onChange={setters.handlePeopleInputChange}
         error={errors.peopleError}
       />

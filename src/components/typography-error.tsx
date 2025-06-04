@@ -6,8 +6,8 @@ const TypographyError = ({
   className,
   asChild,
   ...props
-}: React.ComponentProps<"p"> & { asChild?: boolean }) => {
-  const Comp = asChild ? Slot : "p";
+}: React.ComponentProps<"span"> & { asChild?: boolean }) => {
+  const Comp = asChild ? Slot : "span";
   return (
     <Comp className={cn("typo-5 text-orange-400", className)} {...props} />
   );
