@@ -1,31 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { PropsWithChildren } from "react";
 
 import { iconDollar, iconPerson } from "@/assets/images";
+import TypographyError from "@/components/typography-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 import { useCalculatorContext } from "../context/tip-calculator-context";
 
-interface CalculatorFormFieldProps {
-  title: string;
-  className?: string;
-}
-const CalculatorFormField = ({
-  title,
-  className,
-  children,
-}: PropsWithChildren<CalculatorFormFieldProps>) => {
-  return (
-    <div className={cn("space-y-100", className)}>
-      <p className="typo-5 text-grey-500 block">{title}</p>
-      {children}
-    </div>
-  );
-};
+import CalculatorFieldTitle from "./ui/calculator-filed-title";
 
 interface FormFieldProps {
   title: string;
@@ -42,28 +27,31 @@ const FormField = ({
   onChange,
 }: FormFieldProps) => {
   return (
-    <label>
-      <CalculatorFormField title={title} className="relative">
-        <div className="relative">
-          <Image
-            alt=""
-            src={iconSrc}
-            className="absolute top-1/2 left-200 -translate-y-1/2"
-          />
-          <Input
-            type="number"
-            placeholder="0"
-            className="px-200 py-100"
-            id={title}
-            value={state}
-            onChange={onChange}
-          />
-        </div>
-        {error && (
-          <p className="absolute top-0 right-0 text-orange-400">{error}</p>
-        )}
-      </CalculatorFormField>
-    </label>
+    <div className="relative space-y-100">
+      <CalculatorFieldTitle asChild>
+        <label htmlFor={title}>{title}</label>
+      </CalculatorFieldTitle>
+      <div className="relative">
+        <Image
+          alt=""
+          src={iconSrc}
+          className="absolute top-1/2 left-200 -translate-y-1/2"
+        />
+        <Input
+          type="number"
+          placeholder="0"
+          className="px-200 py-100"
+          id={title}
+          value={state}
+          onChange={onChange}
+        />
+      </div>
+      {error && (
+        <TypographyError className="absolute top-0 right-0" asChild>
+          <label htmlFor="">{error}</label>
+        </TypographyError>
+      )}
+    </div>
   );
 };
 
@@ -75,7 +63,10 @@ const SelectTipField = () => {
   const { handleTipButtonClick, handleCustomTipChange } = setters;
   const { tipError } = errors;
   return (
-    <CalculatorFormField title="Select Tip %" className="relative">
+    <div className="relative space-y-100">
+      <CalculatorFieldTitle asChild>
+        <label>Select Tip %</label>
+      </CalculatorFieldTitle>
       <div className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200">
         {tipNumbers.map((num) => {
           const isActive = Number(buttonTip) === num;
@@ -93,17 +84,19 @@ const SelectTipField = () => {
         <label>
           <Input
             placeholder="Custom"
-            className="placeholder:text-center"
+            className="py-[6px] placeholder:text-center"
             type="number"
             value={customTip}
             onChange={handleCustomTipChange}
           />
           {tipError && (
-            <p className="absolute top-0 right-0 text-orange-400">{tipError}</p>
+            <TypographyError className="absolute top-0 right-0">
+              {tipError}
+            </TypographyError>
           )}
         </label>
       </div>
-    </CalculatorFormField>
+    </div>
   );
 };
 
