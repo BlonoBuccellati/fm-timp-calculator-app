@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { calculatedValue } from "../lib/util/calculateValue";
-import { validationTipCalculator } from "../lib/util/validateTipCalculator";
+import { calculatedValue } from "../lib/utils/calculate-value";
+import { validationTipCalculator } from "../lib/utils/validate-tip-calculator";
 import {
   CalculatorErrorProps,
   CalculatorSettersProps,

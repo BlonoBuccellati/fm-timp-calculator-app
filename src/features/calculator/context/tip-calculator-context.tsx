@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useMemo } from "react";
 
-import { useCalculator as useCalculatorHooks } from "../hooks/useCalculator";
+import { useCalculator as useCalculatorHooks } from "../hooks/use-calculator";
 import { CalculatorContextType } from "../types/tip-calculator";
 
 export const TipCalculatorContext = createContext<CalculatorContextType | null>(

@@ -1,7 +1,7 @@
 "use client";
 
 import { TipCalculatorContext } from "../context/tip-calculator-context";
-import { useCalculator } from "../hooks/useCalculator";
+import { useCalculator } from "../hooks/use-calculator";
 
 import CalculatorForm from "./calculator-form";
 import ResultCard from "./result-card";

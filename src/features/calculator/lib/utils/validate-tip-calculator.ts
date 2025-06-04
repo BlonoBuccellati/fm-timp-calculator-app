@@ -5,7 +5,7 @@ import {
 import {
   TipCalculatorType,
   tipCalculatorSchema,
-} from "../schemas/tipCalculatorSchema";
+} from "../schemas/tip-calculator-schema";
 
 export function validationTipCalculator(
   rowValues: Partial<Record<keyof CalculatorValueProps, string>>,
