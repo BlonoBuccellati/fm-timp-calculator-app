@@ -50,7 +50,7 @@
   /* メディアクエリでは、値に応じて、中のスタイルを適用する。
   つまり、メディアクエリが先に判断していないと、スタイルを適用できないため、実行時に解決されるCSS変数は使うことができない。 */
   /* 参考URL：https://github.com/tailwindlabs/tailwindcss/discussions/15113 */
-  --breakpoint-mobile: 23.4375rem; /* 375px ÷ 16 */
-  --breakpoint-tablet: 48rem; /* 768px ÷ 16 */
-  --breakpoint-desktop: 90rem; /* 1440px ÷ 16 */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1440px;
 }
