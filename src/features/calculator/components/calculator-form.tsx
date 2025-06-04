@@ -91,33 +91,35 @@ const SelectTipField = () => {
   const { tipError } = errors;
   const id = "tip";
   return (
-    <fieldset className="relative space-y-100">
-      <CalculatorFormFieldLabel asChild>
-        <legend>Select Tip %</legend>
-      </CalculatorFormFieldLabel>
-      <div
-        className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200"
-        aria-describedby={tipError ? `${id}-error` : undefined}
-      >
-        <ButtonGroup
-          buttonTip={buttonTip}
-          handleTipButtonClick={handleTipButtonClick}
-        />
-        <Input
-          placeholder="Custom"
-          className="py-[6px] placeholder:text-center"
-          type="number"
-          value={customTip}
-          onChange={handleCustomTipChange}
-        />
-        {tipError && (
-          <TypographyError
-            id={`${id}-error`}
-            className="absolute top-0 right-0"
-          >
-            {tipError}
-          </TypographyError>
-        )}
+    <fieldset>
+      <div className="relative block space-y-100">
+        <CalculatorFormFieldLabel asChild>
+          <legend>Select Tip %</legend>
+        </CalculatorFormFieldLabel>
+        <div
+          className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200"
+          aria-describedby={tipError ? `${id}-error` : undefined}
+        >
+          <ButtonGroup
+            buttonTip={buttonTip}
+            handleTipButtonClick={handleTipButtonClick}
+          />
+          <Input
+            placeholder="Custom"
+            className="py-[6px] placeholder:text-center"
+            type="number"
+            value={customTip}
+            onChange={handleCustomTipChange}
+          />
+          {tipError && (
+            <TypographyError
+              id={`${id}-error`}
+              className="absolute top-0 right-0"
+            >
+              {tipError}
+            </TypographyError>
+          )}
+        </div>
       </div>
     </fieldset>
   );
