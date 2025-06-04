@@ -8,42 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-import { useSelectedTip } from "../hooks/useSelectedTip";
-import {
-  CalculatorErrorProps,
-  CalculatorSettersProps,
-  CalculatorValueProps,
-} from "../types/tip-calculator";
-
-interface CalculatorFormFieldInputProps {
-  imageSrc: string;
-  state: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-const CalculatorFormFieldInput = ({
-  imageSrc,
-  state,
-  onChange,
-  ...props
-}: CalculatorFormFieldInputProps & React.ComponentProps<"input">) => {
-  return (
-    <div className="relative">
-      <Image
-        alt=""
-        src={imageSrc}
-        className="absolute top-1/2 left-200 -translate-y-1/2"
-      />
-      <Input
-        type="number"
-        placeholder="0"
-        className="px-200 py-100"
-        {...props}
-        value={state}
-        onChange={onChange}
-      />
-    </div>
-  );
-};
+import { useCalculatorContext } from "../context/tip-calculator-context";
 
 interface CalculatorFormFieldProps {
   title: string;
@@ -79,12 +44,21 @@ const FormField = ({
   return (
     <label>
       <CalculatorFormField title={title} className="relative">
-        <CalculatorFormFieldInput
-          imageSrc={iconSrc}
-          id={title}
-          state={state}
-          onChange={onChange}
-        />
+        <div className="relative">
+          <Image
+            alt=""
+            src={iconSrc}
+            className="absolute top-1/2 left-200 -translate-y-1/2"
+          />
+          <Input
+            type="number"
+            placeholder="0"
+            className="px-200 py-100"
+            id={title}
+            value={state}
+            onChange={onChange}
+          />
+        </div>
         {error && (
           <p className="absolute top-0 right-0 text-orange-400">{error}</p>
         )}
@@ -93,26 +67,18 @@ const FormField = ({
   );
 };
 
-interface SelectTipFieldProps {
-  setSelectedTip: React.Dispatch<
-    React.SetStateAction<{ value: string; isCustom: boolean }>
-  >;
-}
-const SelectTipField = ({ setSelectedTip }: SelectTipFieldProps) => {
+const SelectTipField = () => {
   const tipNumbers = [5, 10, 15, 25, 50];
 
-  const {
-    selectedTipPercent,
-    handleTipButtonClick,
-    customTipDollar,
-    handleChangeInputTipDollar,
-    customTipError,
-  } = useSelectedTip(setSelectedTip);
+  const { values, setters, errors } = useCalculatorContext();
+  const { buttonTip, customTip } = values;
+  const { handleTipButtonClick, handleCustomTipChange } = setters;
+  const { tipError } = errors;
   return (
     <CalculatorFormField title="Select Tip %" className="relative">
       <div className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200">
         {tipNumbers.map((num) => {
-          const isActive = Number(selectedTipPercent) === num;
+          const isActive = Number(buttonTip) === num;
           return (
             <Button
               type="button"
@@ -129,13 +95,11 @@ const SelectTipField = ({ setSelectedTip }: SelectTipFieldProps) => {
             placeholder="Custom"
             className="placeholder:text-center"
             type="number"
-            value={customTipDollar}
-            onChange={handleChangeInputTipDollar}
+            value={customTip}
+            onChange={handleCustomTipChange}
           />
-          {customTipError && (
-            <p className="absolute top-0 right-0 text-orange-400">
-              {customTipError}
-            </p>
+          {tipError && (
+            <p className="absolute top-0 right-0 text-orange-400">{tipError}</p>
           )}
         </label>
       </div>
@@ -143,12 +107,8 @@ const SelectTipField = ({ setSelectedTip }: SelectTipFieldProps) => {
   );
 };
 
-interface CalculatorFormProps {
-  values: CalculatorValueProps;
-  setters: CalculatorSettersProps;
-  errors: CalculatorErrorProps;
-}
-const CalculatorForm = ({ values, setters, errors }: CalculatorFormProps) => {
+const CalculatorForm = () => {
+  const { values, setters, errors } = useCalculatorContext();
   return (
     <div className="desktop:mx-0 desktop:my-auto mx-auto w-[95%] space-y-400">
       <FormField
@@ -158,9 +118,9 @@ const CalculatorForm = ({ values, setters, errors }: CalculatorFormProps) => {
         onChange={setters.handleBillInputChange}
         error={errors.billError}
       />
-      <SelectTipField setSelectedTip={setters.setSelectedTip} />
+      <SelectTipField />
       <FormField
-        title="People"
+        title="Number of People"
         iconSrc={iconPerson}
         state={values.people}
         onChange={setters.handlePeopleInputChange}
@@ -169,4 +129,5 @@ const CalculatorForm = ({ values, setters, errors }: CalculatorFormProps) => {
     </div>
   );
 };
+
 export default CalculatorForm;

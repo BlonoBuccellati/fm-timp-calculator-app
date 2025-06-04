@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
+import { useCalculatorContext } from "../context/tip-calculator-context";
+
 interface CalculatedContainerProps {
   label: string;
   calculatedValue: string;
@@ -21,11 +23,9 @@ const CalculatedContainer = ({
   );
 };
 
-interface ResultCardProps {
-  tipAmount: string;
-  totalPerPerson: string;
-}
-const ResultCard = ({ tipAmount, totalPerPerson }: ResultCardProps) => {
+const ResultCard = () => {
+  const { result } = useCalculatorContext();
+  const { tipAmount, totalPerPerson } = result;
   return (
     <Card className="desktop:space-y-1600 tablet:px-400 desktop:min-w-[413px] space-y-400 rounded-[15px] bg-green-900 p-300">
       <div className="space-y-300">
