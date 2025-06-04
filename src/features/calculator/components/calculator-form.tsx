@@ -10,27 +10,27 @@ import { cn } from "@/lib/utils";
 
 import { useCalculatorContext } from "../context/tip-calculator-context";
 
-import CalculatorFieldTitle from "./ui/calculator-filed-title";
+import CalculatorFormFieldLabel from "./ui/calculator-form-filed-label";
 
-interface FormFieldProps {
+interface TextInputFieldProps {
   title: string;
+  id: string;
   state: string;
   error: string;
   iconSrc: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const FormField = ({
+const TextInputField = ({
   title,
+  id,
   state,
   error,
   iconSrc,
   onChange,
-}: FormFieldProps) => {
+}: TextInputFieldProps) => {
   return (
     <div className="relative space-y-100">
-      <CalculatorFieldTitle asChild>
-        <label htmlFor={title}>{title}</label>
-      </CalculatorFieldTitle>
+      <CalculatorFormFieldLabel htmlFor={id}>{title}</CalculatorFormFieldLabel>
       <div className="relative">
         <Image
           alt=""
@@ -41,14 +41,14 @@ const FormField = ({
           type="number"
           placeholder="0"
           className="px-200 py-100"
-          id={title}
+          id={id}
           value={state}
           onChange={onChange}
         />
       </div>
       {error && (
         <TypographyError className="absolute top-0 right-0" asChild>
-          <label htmlFor="">{error}</label>
+          <label htmlFor={id}>{error}</label>
         </TypographyError>
       )}
     </div>
@@ -64,9 +64,7 @@ const SelectTipField = () => {
   const { tipError } = errors;
   return (
     <div className="relative space-y-100">
-      <CalculatorFieldTitle asChild>
-        <label>Select Tip %</label>
-      </CalculatorFieldTitle>
+      <CalculatorFormFieldLabel>Select Tip %</CalculatorFormFieldLabel>
       <div className="tablet:grid-cols-3 mx-auto grid grid-cols-2 gap-200">
         {tipNumbers.map((num) => {
           const isActive = Number(buttonTip) === num;
@@ -104,16 +102,18 @@ const CalculatorForm = () => {
   const { values, setters, errors } = useCalculatorContext();
   return (
     <div className="desktop:mx-0 desktop:my-auto mx-auto w-[95%] space-y-400">
-      <FormField
+      <TextInputField
         title="Bill"
+        id="bill"
         iconSrc={iconDollar}
         state={values.bill}
         onChange={setters.handleBillInputChange}
         error={errors.billError}
       />
       <SelectTipField />
-      <FormField
+      <TextInputField
         title="Number of People"
+        id="number-of-people"
         iconSrc={iconPerson}
         state={values.people}
         onChange={setters.handlePeopleInputChange}
