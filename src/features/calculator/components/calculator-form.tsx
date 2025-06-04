@@ -110,7 +110,7 @@ const SelectTipField = () => {
           <Input
             placeholder="Custom"
             className={cn(
-              "placeholder-grey-550 py-[6px] placeholder:text-center",
+              "placeholder-grey-550 py-[0.375rem] placeholder:text-center",
               tipError &&
                 "outline-2 outline-orange-400 focus:outline-orange-400",
             )}

@@ -29,7 +29,7 @@ const ResultCard = () => {
   const { handleResetButtonClick } = setters;
   const { isDisabled } = values;
   return (
-    <Card className="desktop:space-y-1600 tablet:px-400 desktop:min-w-[413px] space-y-400 rounded-[15px] bg-green-900 p-300">
+    <Card className="desktop:space-y-1600 tablet:px-400 desktop:min-w-[25.8125rem] space-y-400 rounded-[0.9375rem] bg-green-900 p-300">
       <div className="space-y-300">
         <CalculatedContainer label="Tip Amount" calculatedValue={tipAmount} />
         <CalculatedContainer label="Total" calculatedValue={totalPerPerson} />

@@ -1,44 +1,44 @@
 @utility typo-1 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 48px;
-  line-height: 71px;
-  letter-spacing: -1px;
+  font-size: 3rem; /* 48 ÷ 16 = 3 */
+  line-height: 4.4375rem; /* 71 ÷ 16 = 4.4375 */
+  letter-spacing: -0.0625rem; /* -1 ÷ 16 = -0.0625 */
 }
 @utility typo-2 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 32px;
-  line-height: 71px;
-  letter-spacing: -0.76px;
+  font-size: 2rem; /* 32px */
+  line-height: 4.4375rem; /* 71px */
+  letter-spacing: -0.0475rem; /* -0.76px */
 }
 @utility typo-3 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 24px;
-  line-height: 36px;
-  letter-spacing: 0;
+  font-size: 1.5rem; /* 24px */
+  line-height: 2.25rem; /* 36px */
+  letter-spacing: 0rem; /* 0px */
 }
 
 @utility typo-4 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 20px;
-  line-height: 30px;
-  letter-spacing: 0;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.875rem; /* 30px */
+  letter-spacing: 0rem; /* 0px */
 }
 @utility typo-5 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: 0;
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+  letter-spacing: 0rem; /* 0px */
 }
 
 @utility typo-6 {
   font-family: var(--font-space-mono);
   font-weight: var(--font-weight-bold);
-  font-size: 13px;
-  line-height: 19px;
-  letter-spacing: 0;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.1875rem; /* 19px */
+  letter-spacing: 0rem; /* 0px */
 }

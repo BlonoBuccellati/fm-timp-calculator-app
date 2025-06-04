@@ -12,7 +12,7 @@ const TipCalculator = () => {
 
   return (
     <TipCalculatorContext value={{ values, setters, errors, result }}>
-      <section className="tablet:py-600 tablet:px-1000 tablet:rounded-[25px] desktop:max-w-[920px] desktop:flex desktop:space-y-0 desktop:gap-600 desktop:p-400 mx-auto max-w-[608px] space-y-400 rounded-t-[25px] bg-white px-300 py-400">
+      <section className="tablet:py-600 tablet:px-1000 tablet:rounded-[1.5625rem] desktop:max-w-[57.5rem] desktop:flex desktop:space-y-0 desktop:gap-600 desktop:p-400 mx-auto max-w-[38rem] space-y-400 rounded-t-[1.5625rem] bg-white px-300 py-400">
         <CalculatorForm />
         <ResultCard />
       </section>
