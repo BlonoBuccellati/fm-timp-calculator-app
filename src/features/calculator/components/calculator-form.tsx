@@ -40,7 +40,10 @@ const NumberInputWithIconField = ({
         <Input
           type="number"
           placeholder="0"
-          className="px-200 py-100"
+          className={cn(
+            "px-200 py-100",
+            error && "outline-2 outline-orange-400 focus:outline-orange-400",
+          )}
           id={id}
           value={value}
           onChange={onChange}
@@ -106,7 +109,11 @@ const SelectTipField = () => {
           />
           <Input
             placeholder="Custom"
-            className="py-[6px] placeholder:text-center"
+            className={cn(
+              "py-[6px] placeholder:text-center",
+              tipError &&
+                "outline-2 outline-orange-400 focus:outline-orange-400",
+            )}
             type="number"
             value={customTip}
             onChange={handleCustomTipChange}
