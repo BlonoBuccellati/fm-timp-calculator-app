@@ -37,7 +37,7 @@ const ResultCard = () => {
       <Button
         variant="reset"
         disabled={isDisabled}
-        className="disabled:bg-green-750 uppercase disabled:cursor-default"
+        className="disabled:bg-green-750 uppercase disabled:cursor-not-allowed"
         type="button"
         onClick={handleResetButtonClick}
       >
