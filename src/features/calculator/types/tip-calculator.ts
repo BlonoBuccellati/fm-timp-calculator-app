@@ -3,6 +3,7 @@ export interface CalculatorValueProps {
   customTip: string;
   buttonTip: string;
   people: string;
+  isDisabled: boolean;
 }
 
 export interface CalculatorSettersProps {

@@ -19,6 +19,7 @@ export function useCalculator() {
     tipError: "",
     peopleError: "",
   });
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const [tipAmount, setTipAmount] = useState("0.00");
   const [totalPerPerson, setTotalPerPerson] = useState("0.00");
@@ -58,6 +59,7 @@ export function useCalculator() {
     setButtonTip("");
     setCustomTip("");
     setPeople("");
+    setErrors({ billError: "", tipError: "", peopleError: "" });
   };
 
   // 計算する。
@@ -72,11 +74,18 @@ export function useCalculator() {
     setTotalPerPerson(totalPerPerson);
   }, [bill, people, customTip, buttonTip]);
 
+  // ボタンの無効化/有効化
+  useEffect(() => {
+    if (bill || people || customTip || buttonTip) setIsDisabled(false);
+    else setIsDisabled(true);
+  }, [bill, people, customTip, buttonTip]);
+
   const values: CalculatorValueProps = {
     bill,
     people,
     buttonTip,
     customTip,
+    isDisabled,
   };
   const setters: CalculatorSettersProps = {
     handleCustomTipChange,
